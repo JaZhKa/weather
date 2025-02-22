@@ -35,14 +35,18 @@ interface Props {
 
 const WeatherChart: React.FC<Props> = ({ data, dataType, granularity }) => {
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
-
   const handleMouseEnter = (e: React.MouseEvent, content: string) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setTooltip({
-      x: rect.left,
-      y: rect.bottom / 2,
-      content,
-    });
+    const parentElement = e.currentTarget.parentElement;
+    if (parentElement) {
+        const parentRect = parentElement.getBoundingClientRect();
+        const tooltipX = e.clientX - parentRect.left;
+        const tooltipY = e.clientY - parentRect.top;
+        setTooltip({
+            x: tooltipX,
+            y: tooltipY,
+            content,
+        });
+    }
   };
 
   const handleMouseLeave = () => {
@@ -91,7 +95,7 @@ const WeatherChart: React.FC<Props> = ({ data, dataType, granularity }) => {
       date,
       ...groupedData[date]
     }))
-    .slice(0, granularity === 'daily' ? 5 : 8); // Display 5 days for daily granularity and 8 intervals for 3-hour granularity
+    .slice(0, granularity === 'daily' ? 5 : 8);
 
   let minVal, maxVal;
   switch (dataType) {
