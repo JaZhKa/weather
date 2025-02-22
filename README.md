@@ -1,5 +1,13 @@
 # React + TypeScript + Vite
 
+**To start**  
+git install  
+git run dev  
+add .env like in /.env-example  
+  
+  
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
